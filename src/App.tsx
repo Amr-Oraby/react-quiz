@@ -1,16 +1,16 @@
-import Header from "./Header";
-import Main from "./Main";
-import Start from "./Start";
-import Error from "./Error";
-import Loader from "./Loader";
-import Question from "./Question";
-import NextBtn from "./NextBtn";
-import Results from "./Results";
-import Progress from "./Progress";
-import ResetBtn from "./ResetBtn";
-import Footer from "./Footer";
-import Timer from "./Timer";
-import { useQuiz } from "../context/QuizContext";
+import Header from "./ui/Header";
+import Main from "./ui/Main";
+import Start from "./ui/Start";
+import Error from "./ui/Error";
+import Loader from "./ui/Loader";
+import Question from "./ui/Question";
+import NextBtn from "./ui/NextBtn";
+import Results from "./ui/Results";
+import Progress from "./ui/Progress";
+import ResetBtn from "./ui/ResetBtn";
+import Footer from "./ui/Footer";
+import Timer from "./ui/Timer";
+import { useQuiz } from "./context/QuizContext";
 
 function App() {
   const { status } = useQuiz();
