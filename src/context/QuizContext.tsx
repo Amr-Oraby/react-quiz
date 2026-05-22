@@ -105,7 +105,8 @@ type ContextType = {
   dispatch: React.Dispatch<Action>;
 };
 
-const QuizContext = createContext<ContextType | null>(null);
+// const QuizContext = createContext<ContextType | null>(null);
+const QuizContext = createContext<ContextType>({} as ContextType);
 
 function QuizProvider({ children }: { children: React.ReactNode }) {
   const [
@@ -147,8 +148,9 @@ function QuizProvider({ children }: { children: React.ReactNode }) {
 
 function useQuiz() {
   const context = useContext(QuizContext);
-  if (context === null)
-    throw new Error("context was used outside it's provider");
+  if (!context) {
+    throw new Error("useQuiz must be used inside QuizProvider");
+  }
   return context;
 }
 
