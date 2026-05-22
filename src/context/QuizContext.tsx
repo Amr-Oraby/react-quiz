@@ -147,7 +147,7 @@ function QuizProvider({ children }: { children: React.ReactNode }) {
 
 function useQuiz() {
   const context = useContext(QuizContext);
-  if (context === undefined)
+  if (context === null)
     throw new Error("context was used outside it's provider");
   return context;
 }
