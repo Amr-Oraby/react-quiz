@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
-
+import { questionsNoApi } from "../data/questionsNoApi";
 const SECS_PER_QUESTION = 10;
 
 type Question = {
@@ -22,6 +22,7 @@ type State = {
 };
 
 type Action =
+  | { type: "loading" }
   | { type: "ready"; payload: Question[] }
   | { type: "error" }
   | { type: "active" }
@@ -43,6 +44,8 @@ const initialValues: State = {
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
+    case "loading":
+      return { ...state, status: "loading" };
     case "ready":
       return { ...state, questions: action.payload, status: "ready" };
     case "error":
@@ -113,14 +116,28 @@ function QuizProvider({ children }: { children: React.ReactNode }) {
     { questions, status, index, answer, points, highscore, tick },
     dispatch,
   ] = useReducer(reducer, initialValues);
+
+  const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
   useEffect(() => {
-    async function getQuestions() {
-      const res = await fetch("http://localhost:8000/questions");
-      const data: Question[] = await res.json();
-      dispatch({ type: "ready", payload: data });
+    async function loadData() {
+      dispatch({ type: "loading" });
+
+      await delay(600);
+
+      dispatch({ type: "ready", payload: questionsNoApi });
     }
-    getQuestions();
+
+    loadData();
   }, []);
+
+  // useEffect(() => {
+  //   async function getQuestions() {
+  //     const res = await fetch("http://localhost:8000/questions");
+  //     const data: Question[] = await res.json();
+  //     dispatch({ type: "ready", payload: data });
+  //   }
+  //   getQuestions();
+  // }, []);
 
   const numQuestions = questions.length;
   const currQuestion = questions.at(index);
